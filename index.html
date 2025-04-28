@@ -87,7 +87,21 @@
       margin-bottom: 0.5rem;
       font-size: 0.9rem;
     }
+
     hr { margin: 1rem 0; }
+
+    .table-responsive {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .table thead th {
+      position: sticky;
+      top: 0;
+      background-color: #007bff;
+      color: #fff;
+      z-index: 1;
+    }
 
     .equal-height { min-height: 400px; }
   </style>
@@ -145,29 +159,35 @@
       <div class="col-md-8">
         <div class="card-custom">
           <div class="card-header">Customer List</div>
-          <div class="table-responsive">
-            <table class="table table-custom">
-              <thead>
-              <tr>
-                <th>#</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-              </tr>
-              </thead>
-              <tbody id="customerTable">
-              <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>john@example.com</td>
-                <td>1234567890</td>
-                <td>123 Main St.</td>
-              </tr>
-              <!-- More rows as needed -->
-              </tbody>
-            </table>
+
+
+          <div>
+            <div class="table-responsive">
+              <table class="table table-custom">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                </tr>
+                </thead>
+                <tbody id="customerTable">
+                <tr>
+                  <td>1</td>
+                  <td>John Doe</td>
+                  <td>john@example.com</td>
+                  <td>1234567890</td>
+                  <td>123 Main St.</td>
+                </tr>
+                <!-- More rows as needed -->
+                </tbody>
+              </table>
+            </div>
           </div>
+
+
         </div>
       </div>
     </div>
