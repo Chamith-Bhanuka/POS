@@ -180,6 +180,12 @@ $('#customer-delete').on('click', function(){
             confirmButtonText: 'Ok'
         });
     }
-})
+});
+
+$('#customer-reset').on('click', function(){
+    $("#customer-save").prop("disabled", false);
+    $("#customer-update").prop("disabled", true);
+    $("#customer-delete").prop("disabled", true);
+});
 
 
