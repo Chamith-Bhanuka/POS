@@ -58,6 +58,10 @@ $('#customer-save').on('click', function(){
         $('#custEmail').val('');
         $('#custPhone').val('');
         $('#custAddress').val('');
+
+        $("#student-save").prop("disabled", false);
+        $("#student-update").prop("disabled", true);
+        $("#student-delete").prop("disabled", true);
     }
 
 });
@@ -117,6 +121,10 @@ $('#customer-update').on('click', function(){
         $('#custAddress').val('');
 
         selectedIndex = -1;
+
+        $("#customer-save").prop("disabled", false);
+        $("#customer-update").prop("disabled", true);
+        $("#customer-delete").prop("disabled", true);
     } else {
         Swal.fire({
             title: 'Error!',
@@ -144,6 +152,10 @@ $('#customer-delete').on('click', function(){
         $('#custAddress').val('');
 
         selectedIndex = -1;
+
+        $("#customer-save").prop("disabled", false);
+        $("#customer-update").prop("disabled", true);
+        $("#customer-delete").prop("disabled", true);
     } else {
         Swal.fire({
             title: 'Error!',
@@ -153,3 +165,5 @@ $('#customer-delete').on('click', function(){
         });
     }
 })
+
+
