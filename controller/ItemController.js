@@ -191,3 +191,9 @@ $('#item-reset').on('click', function(){
     $("#item-update").prop("disabled", true);
     $("#item-delete").prop("disabled", true);
 });
+
+$(document).ready(function() {
+    $("#item-save").prop("disabled", false);
+    $("#item-update").prop("disabled", true);
+    $("#item-delete").prop("disabled", true);
+});
