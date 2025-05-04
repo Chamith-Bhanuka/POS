@@ -121,3 +121,30 @@ $('#customer-update').on('click', function(){
         });
     }
 })
+
+$('#customer-delete').on('click', function(){
+    if (selectedIndex !== -1) {
+        customer_db.splice(selectedIndex, 1);
+        loadCustomers();
+
+        Swal.fire({
+            title: "Deleted Successfully!",
+            icon: "success",
+            draggable: true
+        });
+
+        $('#custFullName').val('');
+        $('#custEmail').val('');
+        $('#custPhone').val('');
+        $('#custAddress').val('');
+
+        selectedIndex = -1;
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please select a row first!',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        });
+    }
+})
