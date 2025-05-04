@@ -1,4 +1,4 @@
-import {item_db} from "../db/db.js";
+import {customer_db, item_db} from "../db/db.js";
 import ItemModel from "../model/ItemModel.js";
 
 function loadItems() {
@@ -142,3 +142,46 @@ $('#item-update').on('click', function(){
         });
     }
 })
+
+//delete
+$('#item-delete').on('click', function(){
+
+    if (selectedIndex !== -1) {
+
+        Swal.fire({
+            title: "Do you want to delete this customer?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't Delete`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                item_db.splice(selectedIndex, 1);
+                loadItems();
+
+                $('#itemName').val('');
+                $('#itemId').val('');
+                $('#itemPrice').val('');
+                $('#itemCategory').val('');
+                $('#itemDescription').val('');
+
+                selectedIndex = -1;
+
+                $("#item-save").prop("disabled", false);
+                $("#item-update").prop("disabled", true);
+                $("#item-delete").prop("disabled", true);
+                Swal.fire("Deleted Successfully!", "", "success");
+            } else if (result.isDenied) {
+                Swal.fire("Unable to Delete Customer", "", "info");
+            }
+        });
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please select a row first!',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        });
+    }
+});
