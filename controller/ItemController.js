@@ -24,7 +24,6 @@ function loadItems() {
 }
 
 //save item
-
 $('#item-save').on('click', function(){
 
     console.log('item saved clicked');
@@ -68,3 +67,32 @@ $('#item-save').on('click', function(){
         $("#item-delete").prop("disabled", true);
     }
 });
+
+//select from table
+
+let selectedIndex = -1;
+
+$('#item-tbody').on('click', 'tr', function(){
+    selectedIndex = $(this).index();
+    console.log(selectedIndex);
+
+    let obj = item_db[selectedIndex];
+    console.log(obj);
+
+    let name = obj.itemName;
+    let code = obj.itemId;
+    let price = obj.price;
+    let category = obj.category;
+    let description = obj.description;
+
+    $('#itemName').val(name);
+    $('#itemId').val(code);
+    $('#itemPrice').val(price);
+    $('#itemCategory').val(category);
+    $('#itemDescription').val(description);
+
+    $('#item-save').prop('disabled', true);
+    $('#item-update').prop('disabled', false);
+    $('#item-delete').prop('disabled', false);
+
+})
