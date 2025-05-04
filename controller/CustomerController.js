@@ -80,6 +80,11 @@ $('#customer-tbody').on('click','tr', function(){
     $('#custEmail').val(email);
     $('#custPhone').val(phone);
     $('#custAddress').val(address);
+
+    //disable save and enable update and delete
+    $('#customer-save').prop('disabled', true);
+    $('#customer-update').prop('disabled', false);
+    $('#customer-delete').prop('disabled', false);
 })
 
 //update
