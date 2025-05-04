@@ -53,6 +53,11 @@ $('#customer-save').on('click', function(){
             icon: "success",
             draggable: true
         });
+
+        $('#custFullName').val('');
+        $('#custEmail').val('');
+        $('#custPhone').val('');
+        $('#custAddress').val('');
     }
 
 });
