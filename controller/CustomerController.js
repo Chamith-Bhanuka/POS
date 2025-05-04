@@ -81,3 +81,43 @@ $('#customer-tbody').on('click','tr', function(){
     $('#custPhone').val(phone);
     $('#custAddress').val(address);
 })
+
+//update
+$('#customer-update').on('click', function(){
+    if (selectedIndex !== -1) {
+
+        let name = $('#custFullName').val();
+        let email = $('#custEmail').val();
+        let phone = $('#custPhone').val();
+        let address = $('#custAddress').val();
+
+        console.log(name, email, phone, address);
+
+        customer_db[selectedIndex].custFullName = name;
+        customer_db[selectedIndex].custEmail = email;
+        customer_db[selectedIndex].custPhone = phone;
+        customer_db[selectedIndex].custAddress = address;
+
+        loadCustomers();
+
+        Swal.fire({
+            title: "Updated Successfully!",
+            icon: "success",
+            draggable: true
+        });
+
+        $('#custFullName').val('');
+        $('#custEmail').val('');
+        $('#custPhone').val('');
+        $('#custAddress').val('');
+
+        selectedIndex = -1;
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please select a row first!',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        });
+    }
+})
