@@ -96,3 +96,49 @@ $('#item-tbody').on('click', 'tr', function(){
     $('#item-delete').prop('disabled', false);
 
 })
+
+//update
+$('#item-update').on('click', function(){
+    if (selectedIndex !== -1) {
+        let name = $('#itemName').val();
+        let id = $('#itemId').val();
+        let price = $('#itemPrice').val();
+        let category = $('#itemCategory').val();
+        let description = $('#itemDescription').val();
+
+        console.log("item that update: " + name, id, price, category, description);
+
+        item_db[selectedIndex].itemName = name;
+        item_db[selectedIndex].itemId = id;
+        item_db[selectedIndex].price = price;
+        item_db[selectedIndex].category = category;
+        item_db[selectedIndex].description = description;
+
+        loadItems();
+
+        Swal.fire({
+            title: "Updated Successfully!",
+            icon: "success",
+            draggable: true
+        });
+
+        $('#itemName').val('');
+        $('#itemId').val('');
+        $('#itemPrice').val('');
+        $('#itemCategory').val('');
+        $('#itemDescription').val('');
+
+        selectedIndex = -1;
+
+        $("#item-save").prop("disabled", false);
+        $("#item-update").prop("disabled", true);
+        $("#item-delete").prop("disabled", true);
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please select a row first!',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        });
+    }
+})
