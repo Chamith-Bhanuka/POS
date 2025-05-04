@@ -22,3 +22,49 @@ function loadItems() {
         $('#item-tbody').append(data);
     });
 }
+
+//save item
+
+$('#item-save').on('click', function(){
+
+    console.log('item saved clicked');
+
+    let name = $('#itemName').val();
+    let code = $('#itemId').val();
+    let price = $('#itemPrice').val();
+    let category = $('#itemCategory').val();
+    let description = $('#itemDescription').val();
+
+    if (name === '' || code === '' || price === '' || category === '' || description === '') {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Invalid Inputs',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        })
+    } else {
+        let item_data = new ItemModel(name, code, price, category, description);
+
+        item_db.push(item_data);
+
+        console.log(item_db);
+
+        loadItems();
+
+        Swal.fire({
+            title: "Added Successfully!",
+            icon: "success",
+            draggable: true
+        });
+
+        $('#itemName').val('');
+        $('#itemId').val('');
+        $('#itemPrice').val('');
+        $('#itemCategory').val('');
+        $('#itemDescription').val('');
+
+        $("#item-save").prop("disabled", false);
+        $("#item-update").prop("disabled", true);
+        $("#item-delete").prop("disabled", true);
+    }
+});
