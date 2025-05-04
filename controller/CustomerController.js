@@ -62,11 +62,13 @@ $('#customer-save').on('click', function(){
 
 });
 
-$('#customer-tbody').on('click','tr', function(){
-    let idx = $(this).index();
-    console.log(idx);
+let selectedIndex = -1;
 
-    let obj = customer_db[idx];
+$('#customer-tbody').on('click','tr', function(){
+    selectedIndex = $(this).index();
+    console.log(selectedIndex);
+
+    let obj = customer_db[selectedIndex];
     console.log(obj);
 
     let name  = obj.custFullName;
