@@ -18,7 +18,10 @@ function loadCustomers() {
                                 <td>${address}</td>
                           </tr>`
         $('#customer-tbody').append(data);
-    })
+    });
+
+    // Update the customer count
+    $('#customerCount').text(customer_db.length);
 }
 
 //save customer
@@ -135,27 +138,40 @@ $('#customer-update').on('click', function(){
     }
 })
 
+
+//delete
 $('#customer-delete').on('click', function(){
     if (selectedIndex !== -1) {
-        customer_db.splice(selectedIndex, 1);
-        loadCustomers();
+
 
         Swal.fire({
-            title: "Deleted Successfully!",
-            icon: "success",
-            draggable: true
+            title: "Do you want to delete this customer?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't Delete`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                customer_db.splice(selectedIndex, 1);
+                loadCustomers();
+
+                $('#custFullName').val('');
+                $('#custEmail').val('');
+                $('#custPhone').val('');
+                $('#custAddress').val('');
+
+                selectedIndex = -1;
+
+                $("#customer-save").prop("disabled", false);
+                $("#customer-update").prop("disabled", true);
+                $("#customer-delete").prop("disabled", true);
+                Swal.fire("Deleted Successfully!", "", "success");
+            } else if (result.isDenied) {
+                Swal.fire("Unable to Delete Customer", "", "info");
+            }
         });
 
-        $('#custFullName').val('');
-        $('#custEmail').val('');
-        $('#custPhone').val('');
-        $('#custAddress').val('');
-
-        selectedIndex = -1;
-
-        $("#customer-save").prop("disabled", false);
-        $("#customer-update").prop("disabled", true);
-        $("#customer-delete").prop("disabled", true);
     } else {
         Swal.fire({
             title: 'Error!',
