@@ -62,9 +62,9 @@ $('#customer-save').on('click', function(){
         $('#custPhone').val('');
         $('#custAddress').val('');
 
-        $("#student-save").prop("disabled", false);
-        $("#student-update").prop("disabled", true);
-        $("#student-delete").prop("disabled", true);
+        $("#customer-save").prop("disabled", false);
+        $("#customer-update").prop("disabled", true);
+        $("#customer-delete").prop("disabled", true);
     }
 
 });
@@ -187,5 +187,12 @@ $('#customer-reset').on('click', function(){
     $("#customer-update").prop("disabled", true);
     $("#customer-delete").prop("disabled", true);
 });
+
+$(document).ready(function() {
+    $("#customer-save").prop("disabled", false);
+    $("#customer-update").prop("disabled", true);
+    $("#customer-delete").prop("disabled", true);
+});
+
 
 
