@@ -61,3 +61,21 @@ $('#customer-save').on('click', function(){
     }
 
 });
+
+$('#customer-tbody').on('click','tr', function(){
+    let idx = $(this).index();
+    console.log(idx);
+
+    let obj = customer_db[idx];
+    console.log(obj);
+
+    let name  = obj.custFullName;
+    let email = obj.custEmail;
+    let phone = obj.custPhone;
+    let address = obj.custAddress;
+
+    $('#custFullName').val(name);
+    $('#custEmail').val(email);
+    $('#custPhone').val(phone);
+    $('#custAddress').val(address);
+})
