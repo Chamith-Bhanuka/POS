@@ -21,6 +21,9 @@ function loadItems() {
                            </tr>`
         $('#item-tbody').append(data);
     });
+
+    //update the item count
+    $('#itemCount').text(item_db.length);
 }
 
 //save item
