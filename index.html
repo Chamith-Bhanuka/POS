@@ -145,7 +145,6 @@
         <div class="card-custom">
           <div class="card-header">Customer List</div>
 
-
           <div>
             <div class="table-responsive">
               <table class="table table-custom">
@@ -158,14 +157,14 @@
                   <th>Address</th>
                 </tr>
                 </thead>
-                <tbody id="customerTable">
-                <tr>
-                  <td>1</td>
-                  <td>John Doe</td>
-                  <td>john@example.com</td>
-                  <td>1234567890</td>
-                  <td>123 Main St.</td>
-                </tr>
+                <tbody id="customer-tbody">
+<!--                <tr>-->
+<!--                  <td>1</td>-->
+<!--                  <td>John Doe</td>-->
+<!--                  <td>john@example.com</td>-->
+<!--                  <td>1234567890</td>-->
+<!--                  <td>123 Main St.</td>-->
+<!--                </tr>-->
                 <!-- More rows as needed -->
                 </tbody>
               </table>
@@ -489,6 +488,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
   function showSection(id) {
