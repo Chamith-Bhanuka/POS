@@ -185,3 +185,9 @@ $('#item-delete').on('click', function(){
         });
     }
 });
+
+$('#item-reset').on('click', function(){
+    $("#item-save").prop("disabled", false);
+    $("#item-update").prop("disabled", true);
+    $("#item-delete").prop("disabled", true);
+});
