@@ -192,7 +192,7 @@
             </div>
             <div class="mb-3">
               <label for="itemId" class="form-label">Item Code</label>
-              <input type="text" class="form-control" id="itemId" placeholder="Enter SKU" required>
+              <input type="text" class="form-control" id="itemId" placeholder="Enter Item Code" required>
             </div>
             <div class="mb-3">
               <label for="itemPrice" class="form-label">Price</label>
@@ -225,7 +225,7 @@
               <tr>
                 <th>#</th>
                 <th>Item Name</th>
-                <th>SKU</th>
+                <th>ItemCode</th>
                 <th>Price</th>
                 <th>Category</th>
                 <th>Description</th>
@@ -493,6 +493,7 @@
 
 <script type="module" src="controller/CustomerController.js"></script>
 <script type="module" src="controller/ItemController.js"></script>
+<script type="module" src="controller/OrderController.js"></script>
 <script>
   function showSection(id) {
     const sections = document.querySelectorAll("section");

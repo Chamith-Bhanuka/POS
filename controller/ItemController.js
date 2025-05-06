@@ -3,6 +3,7 @@ import ItemModel from "../model/ItemModel.js";
 
 function loadItems() {
     $('#item-tbody').empty();
+    $('#availableItemsTable-tbody').empty();
 
     item_db.map((item, index) => {
         let name = item.itemName;
@@ -20,6 +21,14 @@ function loadItems() {
                                 <td>${description}</td>
                            </tr>`
         $('#item-tbody').append(data);
+
+        let availableTblData  = `<tr>
+                                            <td>${index + 1}</td>
+                                            <td>${name}</td>
+                                            <td>${price}</td>
+                                            <td><button class="btn btn-sm btn-success">Add to Cart</button></td>
+                                        </tr>`;
+        $('#availableItemsTable-tbody').append(availableTblData);
     });
 
     //update the item count
