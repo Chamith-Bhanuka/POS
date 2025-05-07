@@ -25,8 +25,10 @@ function loadItems() {
         let availableTblData  = `<tr>
                                             <td>${index + 1}</td>
                                             <td>${name}</td>
-                                            <td>${price}</td>
-                                            <td><button class="btn btn-sm btn-success">Add to Cart</button></td>
+                                            <td>
+                                            <input type="number" class="form-control form-control-sm" min="1" value="1" id="quantity-${index}">
+                                            </td>
+                                            <td><button class="btn btn-sm btn-success add-to-cart" data-index="${index}">Add to Cart</button></td>                                                                                         
                                         </tr>`;
         $('#availableItemsTable-tbody').append(availableTblData);
     });
