@@ -1,5 +1,7 @@
 import {orders, order_details, item_db} from "../db/db.js";
 
+$("#invoiceNumber").val('INV-test').prop("readonly", true);
+
 $(document).on("click", ".add-to-cart", function() {
     console.log("add to cart clicked");
     let index = $(this).data("index");
@@ -144,23 +146,6 @@ $(document).on("click", ".btn-confirm-payment", function() {
         });
         return;
     }
-
-    // // Capture items in the cart
-    // let orderItems = [];
-    // $("#orderCartTable tr").each(function() {
-    //     let itemName = $(this).find("td:nth-child(2)").text();
-    //     let quantity = parseInt($(this).find(".cart-qty").text());
-    //     let price = parseFloat($(this).find("td:nth-child(4)").text());
-    //     let subtotal = parseFloat($(this).find(".cart-subtotal").text());
-    //
-    //
-    //     orderItems.push({
-    //         itemName: itemName,
-    //         quantity: quantity,
-    //         price: price,
-    //         subtotal: subtotal
-    //     });
-    // });
 
     // Create order object
     let order = {
