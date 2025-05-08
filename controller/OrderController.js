@@ -178,6 +178,30 @@ $(document).on("click", ".btn-confirm-payment", function() {
 
     console.log("Orders Array:", orders); // Debugging output
 
+    // Clear previous items
+    $("#billItems ul").empty();
+
+    // Loop through order_details and append to the list
+    order_details.forEach(item => {
+        let listItem = `<li><strong>${item.itemName}</strong> | Qty: <strong>${item.quantity}</strong> | Price: <strong>Rs ${item.price}</strong></li>`;
+        $("#billItems ul").append(listItem);
+    });
+
+    console.log("Bill Items Updated:", order_details);
+
+    // Calculate Net Amount after Discount
+    let netAmount = (finalAmount - (finalAmount * discount / 100)).toFixed(2);
+
+    // Update Invoice Preview
+    $("#billInvoiceNumber").text(invoiceNumber);
+    $("#billDate").text(orderDate);
+    $("#billCustomer").text(customerName);
+    $("#billTotal").text(`Rs ${finalAmount.toFixed(2)}`);
+    $("#billDiscount").text(`${discount}%`);
+    $("#billBalance").text(`Rs ${netAmount}`);
+
+
+
     // Optionally, clear the cart and form
     $("#orderCartTable").empty();
     $("#orderInfoForm")[0].reset();
