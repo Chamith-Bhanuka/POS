@@ -1,4 +1,4 @@
-import {order_details, item_db} from "../db/db.js";
+import {orders, order_details, item_db} from "../db/db.js";
 
 $(document).on("click", ".add-to-cart", function() {
     console.log("add to cart clicked");
@@ -93,7 +93,106 @@ $(document).on("click", ".btn-place-order", function() {
     }
 
     console.log('place order clicked');
+
+    // Calculate total sum of subtotals
+    let totalAmount = 0;
+    $("#orderCartTable tr").each(function() {
+        let subtotal = parseFloat($(this).find(".cart-subtotal").text()) || 0;
+        totalAmount += subtotal;
+    });
+
+    // Set total amount to payment field and make it read-only
+    $("#paymentAmount").val(totalAmount.toFixed(2)).prop("readonly", true);
+
+
     $("#collapseItems").collapse("hide"); // Hide Group 1 (Available Items & Cart)
     $("#collapseOrderInfo").collapse("show"); // Show Group 2 (Order Info & Invoice)
+});
+
+
+
+//confirm payment
+
+$(document).on("click", ".btn-confirm-payment", function() {
+    console.log("Confirm Payment clicked");
+
+    // Get order details from the form
+    let invoiceNumber = $("#invoiceNumber").val();
+    console.log('Invoice' , invoiceNumber);
+
+    let orderDate = $("#orderDate").val();
+    console.log('date', orderDate);
+
+    let customerName = $("#orderCustomer").val();
+    console.log(customerName);
+
+    let paymentMethod = $("#paymentMethod").val();
+    console.log(paymentMethod);
+
+    let finalAmount = parseFloat($("#paymentAmount").val());
+    console.log(finalAmount);
+
+    let discount = parseFloat($("#orderDiscount").val()) || 0;
+    console.log(discount);
+
+    // Ensure required fields are filled
+    if (!invoiceNumber || !orderDate || !customerName || !paymentMethod || isNaN(finalAmount)) {
+        Swal.fire({
+            icon: "error",
+            title: "Missing Info",
+            text: "Please ensure all required fields are filled before confirming payment.",
+        });
+        return;
+    }
+
+    // // Capture items in the cart
+    // let orderItems = [];
+    // $("#orderCartTable tr").each(function() {
+    //     let itemName = $(this).find("td:nth-child(2)").text();
+    //     let quantity = parseInt($(this).find(".cart-qty").text());
+    //     let price = parseFloat($(this).find("td:nth-child(4)").text());
+    //     let subtotal = parseFloat($(this).find(".cart-subtotal").text());
+    //
+    //
+    //     orderItems.push({
+    //         itemName: itemName,
+    //         quantity: quantity,
+    //         price: price,
+    //         subtotal: subtotal
+    //     });
+    // });
+
+    // Create order object
+    let order = {
+        invoiceNumber: invoiceNumber,
+        orderDate: orderDate,
+        customerName: customerName,
+        paymentMethod: paymentMethod,
+        finalAmount: finalAmount,
+        discount: discount,
+        orderItems: order_details
+    };
+
+    // Store order in the array
+    orders.push(order);
+
+    console.log("Orders Array:", orders); // Debugging output
+
+    // Optionally, clear the cart and form
+    $("#orderCartTable").empty();
+    $("#orderInfoForm")[0].reset();
+
+    // Switch to the Order Info & Invoice section
+    $("#collapseItems").collapse("hide");
+    $("#collapseOrderInfo").collapse("show");
+});
+
+$("#orderDiscount").on("input", function() {
+    let discount = parseFloat($(this).val()) || 0;
+    let totalAmount = parseFloat($("#paymentAmount").val()) || 0;
+
+    let netTotal = (totalAmount - (totalAmount * discount / 100)).toFixed(2);
+
+    $("#paymentAmount").val(netTotal);
 });
 
