@@ -220,3 +220,11 @@ $("#orderDiscount").on("input", function() {
     $("#paymentAmount").val(netTotal);
 });
 
+$(document).on("click", "#invoice-print", function() {
+    let invoiceContent = document.querySelector(".invoice-card").outerHTML;
+
+    let printWindow = window.open("", "_blank");
+    printWindow.document.write(`<html><head><title>Invoice</title></head><body>${invoiceContent}</body></html>`);
+    printWindow.document.close();
+    printWindow.print();
+});
