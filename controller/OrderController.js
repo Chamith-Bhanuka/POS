@@ -1,5 +1,4 @@
 import {customer_db, orders, order_details, item_db} from "../db/db.js";
-import CustomerModel from "../model/CustomerModel.js";
 
 console.log("Customer Database:", JSON.stringify(customer_db, null, 2));
 
@@ -231,11 +230,11 @@ $(document).on("click", ".btn-confirm-payment", function() {
 
     // Store order in the array
     orders.push(order);
+    updateRevenue();
 
     console.log("Orders Array:", orders);
 
     loadItems();
-
     // Clear previous items
     $("#billItems ul").empty();
 
@@ -256,7 +255,7 @@ $(document).on("click", ".btn-confirm-payment", function() {
     $("#billDiscount").text(`${discount}%`);
     $("#billBalance").text(`Rs ${netAmount}`);
 
-
+    $("#total-transactions").text(orders.length);
 
     // Optionally, clear the cart and form
     $("#orderCartTable").empty();
@@ -285,6 +284,11 @@ $(document).on("click", "#invoice-print", function() {
     printWindow.print();
 });
 
+function updateRevenue() {
+    let totalRevenue = orders.reduce((sum, order) => sum + order.finalAmount, 0);
+    document.getElementById("revenue").textContent = totalRevenue.toFixed(2); // Set formatted total revenue
+}
+
 function loadItems() {
     $('#item-tbody').empty();
 
@@ -307,4 +311,16 @@ function loadItems() {
 
     //update the item count
     $('#itemCount').text(item_db.length);
+}
+
+$('#setItemsBtn').on("click", function() {
+    resetInvoice();
+})
+
+function resetInvoice() {
+    $("#billCustomer").text('');
+    $("#billTotal").text('');
+    $("#billDiscount").text('');
+    $("#billBalance").text('');
+    $("#billItems ul").empty();
 }

@@ -55,8 +55,8 @@
     <div class="row g-4">
       <div class="col-md-3">
         <div class="dashboard-card card-custom text-center">
-          <h5 class="mb-2">Total Sales</h5>
-          <h2 class="fw-bold">$12,400</h2>
+          <h5 class="mb-2">Total Transactions</h5>
+          <h2 class="fw-bold" id="total-transactions">0</h2>
         </div>
       </div>
       <div class="col-md-3">
@@ -74,7 +74,7 @@
       <div class="col-md-3">
         <div class="dashboard-card card-custom text-center">
           <h5 class="mb-2">Revenue</h5>
-          <h2 class="fw-bold">$45,600</h2>
+          <h2 class="fw-bold" id="revenue">0</h2>
         </div>
       </div>
     </div>
@@ -252,7 +252,7 @@
       <!-- Group 1: Available Items & Cart -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingItems">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseItems"
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseItems" id="setItemsBtn"
                   aria-expanded="true" aria-controls="collapseItems">
             🛒 Available Items & Order Cart
           </button>
