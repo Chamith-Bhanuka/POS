@@ -6,18 +6,17 @@ function loadItems() {
     $('#availableItemsTable-tbody').empty();
 
     item_db.map((item, index) => {
-        let name = item.itemName;
         let code = item.itemId;
+        let name = item.itemName;
+        let itemQty = item.itemQty;
         let price = item.price;
-        let category = item.category;
         let description = item.description;
 
         let data = `<tr>
-                                <td>${index+1}</td>
-                                <td>${name}</td>
                                 <td>${code}</td>
-                                <td>${price}</td>
-                                <td>${category}</td>
+                                <td>${name}</td>
+                                <td>${itemQty}</td>
+                                <td>${price}</td>                            
                                 <td>${description}</td>
                            </tr>`
         $('#item-tbody').append(data);
@@ -42,13 +41,13 @@ $('#item-save').on('click', function(){
 
     console.log('item saved clicked');
 
-    let name = $('#itemName').val();
     let code = $('#itemId').val();
+    let name = $('#itemName').val();
     let price = $('#itemPrice').val();
-    let category = $('#itemCategory').val();
+    let qty = $('#itemQty').val();
     let description = $('#itemDescription').val();
 
-    if (name === '' || code === '' || price === '' || category === '' || description === '') {
+    if (name === '' || code === '' || price === '' || qty === '' || description === '') {
         Swal.fire({
             title: 'Error!',
             text: 'Invalid Inputs',
@@ -56,7 +55,7 @@ $('#item-save').on('click', function(){
             confirmButtonText: 'Ok'
         })
     } else {
-        let item_data = new ItemModel(name, code, price, category, description);
+        let item_data = new ItemModel(code, name, qty, price, description);
 
         item_db.push(item_data);
 
@@ -73,7 +72,7 @@ $('#item-save').on('click', function(){
         $('#itemName').val('');
         $('#itemId').val('');
         $('#itemPrice').val('');
-        $('#itemCategory').val('');
+        $('#itemQty').val('');
         $('#itemDescription').val('');
 
         $("#item-save").prop("disabled", false);
@@ -95,14 +94,14 @@ $('#item-tbody').on('click', 'tr', function(){
 
     let name = obj.itemName;
     let code = obj.itemId;
+    let qty = obj.itemQty;
     let price = obj.price;
-    let category = obj.category;
     let description = obj.description;
 
     $('#itemName').val(name);
     $('#itemId').val(code);
     $('#itemPrice').val(price);
-    $('#itemCategory').val(category);
+    $('#itemQty').val(qty);
     $('#itemDescription').val(description);
 
     $('#item-save').prop('disabled', true);
@@ -117,15 +116,15 @@ $('#item-update').on('click', function(){
         let name = $('#itemName').val();
         let id = $('#itemId').val();
         let price = $('#itemPrice').val();
-        let category = $('#itemCategory').val();
+        let qty = $('#itemQty').val();
         let description = $('#itemDescription').val();
 
-        console.log("item that update: " + name, id, price, category, description);
+        console.log("item that update: " + name, id, price, qty, description);
 
         item_db[selectedIndex].itemName = name;
         item_db[selectedIndex].itemId = id;
         item_db[selectedIndex].price = price;
-        item_db[selectedIndex].category = category;
+        item_db[selectedIndex].itemQty = qty;
         item_db[selectedIndex].description = description;
 
         loadItems();
@@ -139,7 +138,7 @@ $('#item-update').on('click', function(){
         $('#itemName').val('');
         $('#itemId').val('');
         $('#itemPrice').val('');
-        $('#itemCategory').val('');
+        $('#itemQty').val('');
         $('#itemDescription').val('');
 
         selectedIndex = -1;
@@ -163,7 +162,7 @@ $('#item-delete').on('click', function(){
     if (selectedIndex !== -1) {
 
         Swal.fire({
-            title: "Do you want to delete this customer?",
+            title: "Do you want to delete this Item?",
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "Delete",
@@ -177,7 +176,7 @@ $('#item-delete').on('click', function(){
                 $('#itemName').val('');
                 $('#itemId').val('');
                 $('#itemPrice').val('');
-                $('#itemCategory').val('');
+                $('#itemQty').val('');
                 $('#itemDescription').val('');
 
                 selectedIndex = -1;

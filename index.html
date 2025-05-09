@@ -191,20 +191,20 @@
           <h4 class="section-title">Item Information</h4>
           <form id="storeForm">
             <div class="mb-3">
-              <label for="itemName" class="form-label">Item Name</label>
-              <input type="text" class="form-control" id="itemName" placeholder="Enter item name" required>
-            </div>
-            <div class="mb-3">
               <label for="itemId" class="form-label">Item Code</label>
               <input type="text" class="form-control" id="itemId" placeholder="Enter Item Code" required>
             </div>
             <div class="mb-3">
-              <label for="itemPrice" class="form-label">Price</label>
-              <input type="number" step="0.01" class="form-control" id="itemPrice" placeholder="Enter price" required>
+              <label for="itemName" class="form-label">Item Name</label>
+              <input type="text" class="form-control" id="itemName" placeholder="Enter item name" required>
             </div>
             <div class="mb-3">
-              <label for="itemCategory" class="form-label">Category</label>
-              <input type="text" class="form-control" id="itemCategory" placeholder="Enter category">
+              <label for="itemQty" class="form-label">Quantity On Hand</label>
+              <input type="number" class="form-control" id="itemQty" placeholder="Enter quantity">
+            </div>
+            <div class="mb-3">
+              <label for="itemPrice" class="form-label">Price</label>
+              <input type="number" step="0.01" class="form-control" id="itemPrice" placeholder="Enter price" required>
             </div>
             <div class="mb-3">
               <label for="itemDescription" class="form-label">Description</label>
@@ -227,24 +227,14 @@
             <table class="table table-custom">
               <thead>
               <tr>
-                <th>#</th>
+                <th>Item Code</th>
                 <th>Item Name</th>
-                <th>ItemCode</th>
+                <th>Qty. On Hand</th>
                 <th>Price</th>
-                <th>Category</th>
                 <th>Description</th>
               </tr>
               </thead>
               <tbody id="item-tbody">
-<!--              <tr>-->
-<!--                <td>1</td>-->
-<!--                <td>Apple</td>-->
-<!--                <td>APL123</td>-->
-<!--                <td>$1.00</td>-->
-<!--                <td>Fruit</td>-->
-<!--                <td>Fresh red apple</td>-->
-<!--              </tr>-->
-              <!-- More rows as needed -->
               </tbody>
             </table>
           </div>
@@ -287,24 +277,6 @@
                       </tr>
                       </thead>
                       <tbody id="availableItemsTable-tbody">
-<!--                      <tr>-->
-<!--                        <td>1</td>-->
-<!--                        <td>Apple</td>-->
-<!--                        <td>1.00</td>-->
-<!--                        <td><button class="btn btn-sm btn-success">Add to Cart</button></td>-->
-<!--                      </tr>-->
-<!--                      <tr>-->
-<!--                        <td>2</td>-->
-<!--                        <td>Milk</td>-->
-<!--                        <td>2.50</td>-->
-<!--                        <td><button class="btn btn-sm btn-success">Add to Cart</button></td>-->
-<!--                      </tr>-->
-<!--                      <tr>-->
-<!--                        <td>3</td>-->
-<!--                        <td>Bread</td>-->
-<!--                        <td>1.50</td>-->
-<!--                        <td><button class="btn btn-sm btn-success">Add to Cart</button></td>-->
-<!--                      </tr>-->
                       </tbody>
                     </table>
                   </div>
@@ -328,14 +300,6 @@
                       </tr>
                       </thead>
                       <tbody id="orderCartTable">
-<!--                      <tr>-->
-<!--                        <td>1</td>-->
-<!--                        <td>Apple</td>-->
-<!--                        <td>2</td>-->
-<!--                        <td>1.00</td>-->
-<!--                        <td>2.00</td>-->
-<!--                        <td><button class="btn btn-sm btn-danger">Remove</button></td>-->
-<!--                      </tr>-->
                       </tbody>
                     </table>
                   </div>
