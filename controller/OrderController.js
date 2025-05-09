@@ -1,6 +1,12 @@
-import {orders, order_details, item_db} from "../db/db.js";
+import {customer_db, orders, order_details, item_db} from "../db/db.js";
+import CustomerModel from "../model/CustomerModel.js";
 
-$("#invoiceNumber").val('INV-test').prop("readonly", true);
+console.log("Customer Database:", JSON.stringify(customer_db, null, 2));
+
+function generateInvoiceNumber() {
+    let invoiceCount = orders.length + 1; // Increment based on order count
+    return `INV-${String(invoiceCount).padStart(3, '0')}`; // Formats as INV-001, INV-002, etc.
+};
 
 $(document).on("click", ".add-to-cart", function() {
     console.log("add to cart clicked");
@@ -83,6 +89,7 @@ $(document).on("click", ".btn-cart-reset", function() {
     $("#orderCartTable").empty(); // Clears all rows inside the cart table
 });
 
+//Place order clicked
 $(document).on("click", ".btn-place-order", function() {
     if ($("#orderCartTable").children().length === 0) {
 
@@ -106,6 +113,26 @@ $(document).on("click", ".btn-place-order", function() {
     // Set total amount to payment field and make it read-only
     $("#paymentAmount").val(totalAmount.toFixed(2)).prop("readonly", true);
 
+    let invoiceNumber = generateInvoiceNumber();
+    console.log(`Invoice Number: ${invoiceNumber}`);
+    $("#invoiceNumber").val(invoiceNumber).prop("readonly", true);
+
+    function getTodayDate() {
+        let today = new Date();
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        let dd = String(today.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    }
+
+    let todayDate = getTodayDate();
+    $("#orderDate").val(todayDate).prop("readonly", true);
+
+
+    //set that values to invoice
+    $("#billInvoiceNumber").text(invoiceNumber);
+    $("#billDate").text(todayDate);
+
 
     $("#collapseItems").collapse("hide"); // Hide Group 1 (Available Items & Cart)
     $("#collapseOrderInfo").collapse("show"); // Show Group 2 (Order Info & Invoice)
@@ -119,8 +146,6 @@ $(document).on("click", ".btn-confirm-payment", function() {
     console.log("Confirm Payment clicked");
 
     // Get order details from the form
-    let invoiceNumber = $("#invoiceNumber").val();
-    console.log('Invoice' , invoiceNumber);
 
     let orderDate = $("#orderDate").val();
     console.log('date', orderDate);
@@ -158,6 +183,29 @@ $(document).on("click", ".btn-confirm-payment", function() {
         orderItems: order_details
     };
 
+    let timerInterval;
+    Swal.fire({
+        title: "Order Saving!",
+        html: "I will close in <b></b> milliseconds.",
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading();
+            const timer = Swal.getPopup().querySelector("b");
+            timerInterval = setInterval(() => {
+                timer.textContent = `${Swal.getTimerLeft()}`;
+            }, 100);
+        },
+        willClose: () => {
+            clearInterval(timerInterval);
+        }
+    }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+            console.log("I was closed by the timer");
+        }
+    });
+
     // Store order in the array
     orders.push(order);
 
@@ -178,8 +226,6 @@ $(document).on("click", ".btn-confirm-payment", function() {
     let netAmount = (finalAmount - (finalAmount * discount / 100)).toFixed(2);
 
     // Update Invoice Preview
-    $("#billInvoiceNumber").text(invoiceNumber);
-    $("#billDate").text(orderDate);
     $("#billCustomer").text(customerName);
     $("#billTotal").text(`Rs ${finalAmount.toFixed(2)}`);
     $("#billDiscount").text(`${discount}%`);
