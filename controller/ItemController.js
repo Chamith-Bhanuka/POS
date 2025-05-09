@@ -24,6 +24,7 @@ function loadItems() {
         let availableTblData  = `<tr>
                                             <td>${index + 1}</td>
                                             <td>${name}</td>
+                                            <td>${itemQty}</td>
                                             <td>
                                             <input type="number" class="form-control form-control-sm" min="1" value="1" id="quantity-${index}">
                                             </td>
