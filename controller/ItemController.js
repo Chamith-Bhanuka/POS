@@ -1,4 +1,4 @@
-import {customer_db, item_db} from "../db/db.js";
+import {item_db} from "../db/db.js";
 import ItemModel from "../model/ItemModel.js";
 
 function loadItems() {
@@ -22,7 +22,7 @@ function loadItems() {
         $('#item-tbody').append(data);
 
         let availableTblData  = `<tr>
-                                            <td>${index + 1}</td>
+                                            <td>${code}</td>
                                             <td>${name}</td>
                                             <td>${itemQty}</td>
                                             <td>
@@ -70,8 +70,11 @@ $('#item-save').on('click', function(){
             draggable: true
         });
 
+        let itemId = generateItemId();
+        console.log(`Customer Id: ${itemId}`);
+        $("#itemId").val(itemId).prop("readonly", true);
+
         $('#itemName').val('');
-        $('#itemId').val('');
         $('#itemPrice').val('');
         $('#itemQty').val('');
         $('#itemDescription').val('');
@@ -136,8 +139,11 @@ $('#item-update').on('click', function(){
             draggable: true
         });
 
+        let itemId = generateItemId();
+        console.log(`Customer Id: ${itemId}`);
+        $("#itemId").val(itemId).prop("readonly", true);
+
         $('#itemName').val('');
-        $('#itemId').val('');
         $('#itemPrice').val('');
         $('#itemQty').val('');
         $('#itemDescription').val('');
@@ -201,13 +207,31 @@ $('#item-delete').on('click', function(){
 });
 
 $('#item-reset').on('click', function(){
+    let itemId = generateItemId();
+    console.log(`Customer Id: ${itemId}`);
+    $("#itemId").val(itemId).prop("readonly", true);
+
+    $('#itemName').val('');
+    $('#itemPrice').val('');
+    $('#itemQty').val('');
+    $('#itemDescription').val('');
+
     $("#item-save").prop("disabled", false);
     $("#item-update").prop("disabled", true);
     $("#item-delete").prop("disabled", true);
 });
 
 $(document).ready(function() {
+    let itemId = generateItemId();
+    console.log(`Customer Id: ${itemId}`);
+    $("#itemId").val(itemId).prop("readonly", true);
+
     $("#item-save").prop("disabled", false);
     $("#item-update").prop("disabled", true);
     $("#item-delete").prop("disabled", true);
 });
+
+function generateItemId() {
+    let customerCount = item_db.length + 1; // Increment based on customer count
+    return `I-${String(customerCount).padStart(3, '0')}`; // Formats as C001, C002, etc.
+}
