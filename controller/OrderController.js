@@ -169,6 +169,8 @@ $(document).on("click", ".btn-confirm-payment", function() {
 
     // Get order details from the form
 
+    let invoiceNumber = $("#invoiceNumber").val();
+
     let orderDate = $("#orderDate").val();
     console.log('date', orderDate);
 
@@ -264,6 +266,8 @@ $(document).on("click", ".btn-confirm-payment", function() {
     // Switch to the Order Info & Invoice section
     $("#collapseItems").collapse("hide");
     $("#collapseOrderInfo").collapse("show");
+
+    loadOrders();
 });
 
 $("#orderDiscount").on("input", function() {
@@ -323,4 +327,24 @@ function resetInvoice() {
     $("#billDiscount").text('');
     $("#billBalance").text('');
     $("#billItems ul").empty();
+}
+
+function loadOrders() {
+    $('#historyTableTbody').empty();
+
+    orders.map((item, index) => {
+        let invoiceNumber = item.invoiceNumber;
+        let date  = item.orderDate;
+        let customer = item.customerName;
+        let total = item.finalAmount;
+
+        let data = `<tr>
+                                <td>${index+1}</td>
+                                <td>${invoiceNumber}</td>
+                                <td>${date}</td>
+                                <td>${customer}</td>
+                                <td>${total}</td>
+                          </tr>`
+        $('#historyTableTbody').append(data);
+    });
 }
