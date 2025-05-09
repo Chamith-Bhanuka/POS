@@ -15,9 +15,19 @@ $(document).on("click", ".add-to-cart", function() {
     addToCart(index);
 });
 
+function updateRow(itemId) {
+    let row = $(`#availableItemsTable-tbody tr:has(td:contains(${itemId}))`);
+    let item = item_db.find(i => i.itemId === itemId);
+    row.find("td:eq(2)").text(item.itemQty); // Update Qty. On Hand column
+}
+
+
 function addToCart(index) {
     let item = item_db[index];
     let price = parseFloat(item.price);
+
+    let availableQty = item.itemQty;
+    console.log('Available Quantity', availableQty);
 
     if (isNaN(price)) {
         console.error(`Invalid price for item ${item.itemName}:`, item.price);
@@ -25,6 +35,21 @@ function addToCart(index) {
     }
 
     let quantity = parseInt($(`#quantity-${index}`).val());
+    console.log('Quantity: ', quantity);
+
+    if (quantity > availableQty) {
+        Swal.fire({
+            icon: "error",
+            title: "Stock Error",
+            text: `Only ${availableQty} units of ${item.itemName} are available.`,
+        });
+        return;
+    } else {
+        item_db[index].itemQty -= quantity;
+        updateRow(item.itemId);
+    }
+
+
     let subtotal = (quantity * price).toFixed(2);
 
     // Check if the item already exists in the order_details array
@@ -61,7 +86,7 @@ function addToCart(index) {
                         <td>${price.toFixed(2)}</td>
                         <td class="cart-subtotal">${subtotal}</td>
                         <td><button class="btn btn-sm btn-danger remove-item" data-id="${item.itemId}">Remove</button>
-</td>
+                        </td>
                      </tr>`;
         $('#orderCartTable').append(newRow);
     }
@@ -139,9 +164,7 @@ $(document).on("click", ".btn-place-order", function() {
 });
 
 
-
 //confirm payment
-
 $(document).on("click", ".btn-confirm-payment", function() {
     console.log("Confirm Payment clicked");
 
@@ -209,7 +232,9 @@ $(document).on("click", ".btn-confirm-payment", function() {
     // Store order in the array
     orders.push(order);
 
-    console.log("Orders Array:", orders); // Debugging output
+    console.log("Orders Array:", orders);
+
+    loadItems();
 
     // Clear previous items
     $("#billItems ul").empty();
@@ -259,3 +284,27 @@ $(document).on("click", "#invoice-print", function() {
     printWindow.document.close();
     printWindow.print();
 });
+
+function loadItems() {
+    $('#item-tbody').empty();
+
+    item_db.map((item, index) => {
+        let code = item.itemId;
+        let name = item.itemName;
+        let itemQty = item.itemQty;
+        let price = item.price;
+        let description = item.description;
+
+        let data = `<tr>
+                                <td>${code}</td>
+                                <td>${name}</td>
+                                <td>${itemQty}</td>
+                                <td>${price}</td>                            
+                                <td>${description}</td>
+                           </tr>`
+        $('#item-tbody').append(data);
+    });
+
+    //update the item count
+    $('#itemCount').text(item_db.length);
+}
