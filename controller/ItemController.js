@@ -48,14 +48,23 @@ $('#item-save').on('click', function(){
     let qty = $('#itemQty').val();
     let description = $('#itemDescription').val();
 
-    if (name === '' || code === '' || price === '' || qty === '' || description === '') {
-        Swal.fire({
-            title: 'Error!',
-            text: 'Invalid Inputs',
-            icon: 'error',
-            confirmButtonText: 'Ok'
-        })
-    } else {
+    // Regular expressions for validation
+    let namePattern = /^[A-Za-z ]{3,}$/; // Minimum 3 letters, allows spaces
+    let pricePattern = /^\d+(\.\d{1,2})?$/; // Allows numbers with up to 2 decimal places
+    let qtyPattern = /^[1-9]\d*$/; // Positive integers only (no zero)
+    let descriptionPattern = /^.{10,}$/; // Minimum 10 characters for description
+
+    let isValidName = namePattern.test(name);
+    let isValidPrice = pricePattern.test(price);
+    let isValidQty = qtyPattern.test(qty);
+    let isValidDescription = descriptionPattern.test(description);
+
+    $('#itemName').css('border-color', isValidName ? '#dee2e6' : 'red');
+    $('#itemPrice').css('border-color', isValidPrice ? '#dee2e6' : 'red');
+    $('#itemQty').css('border-color', isValidQty ? '#dee2e6' : 'red');
+    $('#itemDescription').css('border-color', isValidDescription ? '#dee2e6' : 'red');
+
+    if (isValidName && isValidPrice && isValidQty && isValidDescription) {
         let item_data = new ItemModel(code, name, qty, price, description);
 
         item_db.push(item_data);
@@ -82,6 +91,14 @@ $('#item-save').on('click', function(){
         $("#item-save").prop("disabled", false);
         $("#item-update").prop("disabled", true);
         $("#item-delete").prop("disabled", true);
+
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Invalid Inputs',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        })
     }
 });
 
@@ -123,36 +140,62 @@ $('#item-update').on('click', function(){
         let qty = $('#itemQty').val();
         let description = $('#itemDescription').val();
 
-        console.log("item that update: " + name, id, price, qty, description);
+        // Regular expressions for validation
+        let namePattern = /^[A-Za-z ]{3,}$/; // Minimum 3 letters, allows spaces
+        let pricePattern = /^\d+(\.\d{1,2})?$/; // Allows numbers with up to 2 decimal places
+        let qtyPattern = /^[1-9]\d*$/; // Positive integers only (no zero)
+        let descriptionPattern = /^.{10,}$/; // Minimum 10 characters for description
 
-        item_db[selectedIndex].itemName = name;
-        item_db[selectedIndex].itemId = id;
-        item_db[selectedIndex].price = price;
-        item_db[selectedIndex].itemQty = qty;
-        item_db[selectedIndex].description = description;
+        let isValidName = namePattern.test(name);
+        let isValidPrice = pricePattern.test(price);
+        let isValidQty = qtyPattern.test(qty);
+        let isValidDescription = descriptionPattern.test(description);
 
-        loadItems();
+        $('#itemName').css('border-color', isValidName ? '#dee2e6' : 'red');
+        $('#itemPrice').css('border-color', isValidPrice ? '#dee2e6' : 'red');
+        $('#itemQty').css('border-color', isValidQty ? '#dee2e6' : 'red');
+        $('#itemDescription').css('border-color', isValidDescription ? '#dee2e6' : 'red');
 
-        Swal.fire({
-            title: "Updated Successfully!",
-            icon: "success",
-            draggable: true
-        });
+        if (isValidName && isValidPrice && isValidQty && isValidDescription) {
+            console.log("item that update: " + name, id, price, qty, description);
 
-        let itemId = generateItemId();
-        console.log(`Customer Id: ${itemId}`);
-        $("#itemId").val(itemId).prop("readonly", true);
+            item_db[selectedIndex].itemName = name;
+            item_db[selectedIndex].itemId = id;
+            item_db[selectedIndex].price = price;
+            item_db[selectedIndex].itemQty = qty;
+            item_db[selectedIndex].description = description;
 
-        $('#itemName').val('');
-        $('#itemPrice').val('');
-        $('#itemQty').val('');
-        $('#itemDescription').val('');
+            loadItems();
 
-        selectedIndex = -1;
+            Swal.fire({
+                title: "Updated Successfully!",
+                icon: "success",
+                draggable: true
+            });
 
-        $("#item-save").prop("disabled", false);
-        $("#item-update").prop("disabled", true);
-        $("#item-delete").prop("disabled", true);
+            let itemId = generateItemId();
+            console.log(`Customer Id: ${itemId}`);
+            $("#itemId").val(itemId).prop("readonly", true);
+
+            $('#itemName').val('');
+            $('#itemPrice').val('');
+            $('#itemQty').val('');
+            $('#itemDescription').val('');
+
+            selectedIndex = -1;
+
+            $("#item-save").prop("disabled", false);
+            $("#item-update").prop("disabled", true);
+            $("#item-delete").prop("disabled", true);
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Invalid Inputs',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
+        }
+
     } else {
         Swal.fire({
             title: 'Error!',
