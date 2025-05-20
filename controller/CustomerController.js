@@ -38,14 +38,25 @@ $('#customer-save').on('click', function(){
     let phone = $('#custPhone').val();
     let address = $('#custAddress').val();
 
-    if (name === '' || email === '' || phone === '' || address === '') {
-        Swal.fire({
-            title: 'Error!',
-            text: 'Invalid Inputs',
-            icon: 'error',
-            confirmButtonText: 'Ok'
-        })
-    } else {
+    //validation part
+    // Regular expressions for validation
+    let namePattern = /^[A-Za-z ]+$/;
+    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    let phonePattern = /^\d{10}$/;  // Assumes a 10-digit phone number
+    let addressPattern = /^.{5,}$/; // Minimum 5 characters for address
+
+    let isValidName = namePattern.test(name);
+    let isValidEmail = emailPattern.test(email);
+    let isValidPhone = phonePattern.test(phone);
+    let isValidAddress = addressPattern.test(address);
+
+    $('#custFullName').css('border-color', isValidName ? '#dee2e6' : 'red');
+    $('#custEmail').css('border-color', isValidEmail ? '#dee2e6' : 'red');
+    $('#custPhone').css('border-color', isValidPhone ? '#dee2e6' : 'red');
+    $('#custAddress').css('border-color', isValidAddress ? '#dee2e6' : 'red');
+
+    if (isValidName && isValidEmail && isValidPhone && isValidAddress) {
+
         let customer_data = new CustomerModel(id, name, email, phone, address);
 
         customer_db.push(customer_data);
@@ -72,6 +83,16 @@ $('#customer-save').on('click', function(){
         $("#customer-save").prop("disabled", false);
         $("#customer-update").prop("disabled", true);
         $("#customer-delete").prop("disabled", true);
+
+    } else {
+
+        Swal.fire({
+            title: 'Error!',
+            text: 'Invalid Inputs',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        });
+
     }
 
 });
