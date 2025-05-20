@@ -133,35 +133,61 @@ $('#customer-update').on('click', function(){
         let phone = $('#custPhone').val();
         let address = $('#custAddress').val();
 
-        console.log(name, email, phone, address);
+        // Regular expressions for validation
+        let namePattern = /^[A-Za-z ]+$/;
+        let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        let phonePattern = /^\d{10}$/;  // Assumes a 10-digit phone number
+        let addressPattern = /^.{5,}$/; // Minimum 5 characters for address
 
-        customer_db[selectedIndex].custFullName = name;
-        customer_db[selectedIndex].custEmail = email;
-        customer_db[selectedIndex].custPhone = phone;
-        customer_db[selectedIndex].custAddress = address;
+        let isValidName = namePattern.test(name);
+        let isValidEmail = emailPattern.test(email);
+        let isValidPhone = phonePattern.test(phone);
+        let isValidAddress = addressPattern.test(address);
 
-        loadCustomers();
+        $('#custFullName').css('border-color', isValidName ? '#dee2e6' : 'red');
+        $('#custEmail').css('border-color', isValidEmail ? '#dee2e6' : 'red');
+        $('#custPhone').css('border-color', isValidPhone ? '#dee2e6' : 'red');
+        $('#custAddress').css('border-color', isValidAddress ? '#dee2e6' : 'red');
 
-        Swal.fire({
-            title: "Updated Successfully!",
-            icon: "success",
-            draggable: true
-        });
+        if (isValidName && isValidEmail && isValidPhone && isValidAddress) {
+            console.log(name, email, phone, address);
 
-        let customerId = generateCustomerId();
-        console.log(`Customer Id: ${customerId}`);
-        $("#customerId").val(customerId).prop("readonly", true);
+            customer_db[selectedIndex].custFullName = name;
+            customer_db[selectedIndex].custEmail = email;
+            customer_db[selectedIndex].custPhone = phone;
+            customer_db[selectedIndex].custAddress = address;
 
-        $('#custFullName').val('');
-        $('#custEmail').val('');
-        $('#custPhone').val('');
-        $('#custAddress').val('');
+            loadCustomers();
 
-        selectedIndex = -1;
+            Swal.fire({
+                title: "Updated Successfully!",
+                icon: "success",
+                draggable: true
+            });
 
-        $("#customer-save").prop("disabled", false);
-        $("#customer-update").prop("disabled", true);
-        $("#customer-delete").prop("disabled", true);
+            let customerId = generateCustomerId();
+            console.log(`Customer Id: ${customerId}`);
+            $("#customerId").val(customerId).prop("readonly", true);
+
+            $('#custFullName').val('');
+            $('#custEmail').val('');
+            $('#custPhone').val('');
+            $('#custAddress').val('');
+
+            selectedIndex = -1;
+
+            $("#customer-save").prop("disabled", false);
+            $("#customer-update").prop("disabled", true);
+            $("#customer-delete").prop("disabled", true);
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Invalid Inputs',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            });
+        }
+
     } else {
         Swal.fire({
             title: 'Error!',
