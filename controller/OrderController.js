@@ -364,3 +364,21 @@ $('#itemSearch').on('input', function () {
         }
     });
 });
+
+$('#historySearch').on('input', function () {
+    let searchQuery = $(this).val().trim();
+
+    $('#historyTableTbody tr').each(function () {
+        let rowInvoiceNumber = $(this).find('td:nth-child(2)').text().trim();
+        let customerName = $(this).find('td:nth-child(4)').text().trim();
+
+        if (searchQuery === '') {
+            $(this).show();
+        } else if (rowInvoiceNumber.includes(searchQuery) || customerName.includes(searchQuery)) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+});
+
