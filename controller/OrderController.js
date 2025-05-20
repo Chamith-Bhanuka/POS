@@ -1,6 +1,6 @@
 import {customer_db, orders, order_details, item_db} from "../db/db.js";
 
-console.log("Customer Database:", JSON.stringify(customer_db, null, 2));
+console.log("Customer Database:", customer_db);
 
 function generateInvoiceNumber() {
     let invoiceCount = orders.length + 1; // Increment based on order count
@@ -348,3 +348,19 @@ function loadOrders() {
         $('#historyTableTbody').append(data);
     });
 }
+
+$('#itemSearch').on('input', function () {
+    let searchId = $(this).val().trim();
+
+    $('#availableItemsTable-tbody tr').each(function () {
+        let rowItemId = $(this).find('td:first').text().trim();
+
+        if (searchId === '') {
+            $(this).show();
+        } else if (rowItemId === searchId) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+});
